@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
             li.innerHTML = `${contacto.nombre}: ${contacto.telefono} <button class='eliminarContacto' data-index=${index}>Eliminar</button>`;
             elementoLista.appendChild(li);
         });
-    } else 
+    } else
         var listaContactos = [];
 
     function insertarOrdenado(contacto) {
@@ -46,6 +46,9 @@ document.addEventListener('DOMContentLoaded', () => {
     })
 
     window.addEventListener('beforeunload', () => {
-        localStorage.setItem('listaContactos', JSON.stringify(listaContactos));
+        if (listaContactos.length !== 0)
+            localStorage.setItem('listaContactos', JSON.stringify(listaContactos));
+        else
+            localStorage.removeItem('listaContactos');
     });
 });
