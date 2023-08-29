@@ -3,7 +3,16 @@ document.addEventListener('DOMContentLoaded', () => {
     const elementoTelefono = document.getElementById('telefono');
     const elementoLista = document.getElementById('lista');
 
-    const listaContactos = [];
+    const storedListaContactos = localStorage.getItem('listaContactos');
+    if (storedListaContactos) {
+        var listaContactos = JSON.parse(storedListaContactos);
+        listaContactos.forEach((contacto, index) => {
+            const li = document.createElement('li');
+            li.innerHTML = `${contacto.nombre}: ${contacto.telefono} <button class='eliminarContacto' data-index=${index}>Eliminar</button>`;
+            elementoLista.appendChild(li);
+        });
+    } else 
+        var listaContactos = [];
 
     function insertarOrdenado(contacto) {
         let inf = 0;
@@ -35,4 +44,8 @@ document.addEventListener('DOMContentLoaded', () => {
             e.target.parentElement.remove();
         }
     })
-})
+
+    window.addEventListener('beforeunload', () => {
+        localStorage.setItem('listaContactos', JSON.stringify(listaContactos));
+    });
+});
